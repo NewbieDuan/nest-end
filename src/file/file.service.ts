@@ -20,8 +20,8 @@ export class FileService {
       fileEntity.name = body.name;
       fileEntity.desc = body.desc;
       fileEntity.size = file.size;
-      fileEntity.addr = encodeURIComponent(fileName);
-      fileEntity.originalname = encodeURIComponent(file.originalname);
+      fileEntity.addr = fileName;
+      fileEntity.originalname = file.originalname;
       fileEntity.type = file.originalname.match(/\.*\.(\w+)$/)[1];
       fileEntity.createTime = Date.now();
       fileEntity.user = user;
@@ -32,7 +32,7 @@ export class FileService {
   }
   async download(id: number, res) {
     let findItem = await this.fileRepository.findOne({ id });
-    let path = join(__dirname, '../../static/upload', decodeURIComponent(findItem.addr))
+    let path = join(__dirname, '../../static/upload', findItem.addr)
     // let readStream = createReadStream(path)
     // res.setHeader(
     //   'content-Disposition', `attachment; filename="${findItem.name}.${findItem.type}"`,
